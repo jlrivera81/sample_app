@@ -61,4 +61,19 @@ class UserTest < ActiveSupport::TestCase
     	@user.password = @user.password_confirmation = "a" * 3
     	assert_not @user.valid?
   	end
+
+  	test "email should be lower case" do
+  		mixed_case_email = "JlRiVerA@gmail.COM"
+  		@user.email = mixed_case_email
+  		# before_save call-back on user object will downcase email before saving to DB
+  		@user.save
+  		assert_equal @user.reload.email, mixed_case_email.downcase
+  	end
+
+  	test "email should only have one dot in domain" do
+  		invalidEmail = "jlrivera81@gmail.com"
+  		@user.email = invalidEmail
+  		@user.save
+  		assert @user.valid?,  "#{invalidEmail} should be valid"
+  	end
 end
