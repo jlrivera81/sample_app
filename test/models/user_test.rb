@@ -1,10 +1,14 @@
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
-  	def setup
-    	@user = User.new(name: "Example User", email: "user@example.com",
+  def setup
+    @user = User.new(name: "Example User", email: "user@example.com",
     							password: "foobar", password_confirmation: "foobar")
 	end
+
+  test "authenticated? should return false for a user with nil digest" do
+    assert_not @user.authenticated?('')
+  end
   	
   	test "should be valid" do
     	assert @user.valid?
@@ -71,7 +75,7 @@ class UserTest < ActiveSupport::TestCase
   	end
 
   	test "email should only have one dot in domain" do
-  		invalidEmail = "jlrivera81@gmail.com"
+  		invalidEmail = "jlrivera85@gmail.com"
   		@user.email = invalidEmail
   		@user.save
   		assert @user.valid?,  "#{invalidEmail} should be valid"
