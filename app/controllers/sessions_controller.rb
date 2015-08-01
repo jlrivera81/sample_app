@@ -4,13 +4,13 @@ class SessionsController < ApplicationController
   end
 
   def create
-		user = User.find_by(email: params[:session][:email].downcase)
-		if user && user.authenticate(params[:session][:password])
-			log_in user
-			params[:session][:remember_me] == '1' ? remember(user) : forget(user)
+		@user = User.find_by(email: params[:session][:email].downcase)
+		if @user && @user.authenticate(params[:session][:password])
+			log_in @user
+			params[:session][:remember_me] == '1' ? remember(@user) : forget(@user)
 
 			# rails automatically converts to users_url(usedr)
-			redirect_to user
+			redirect_to @user
 		else
 			# a "flash" persists for exactly 1 web "request"
 			# unlike "redirect" (which was used for successful user_controller flash), render doesn't send web_request
