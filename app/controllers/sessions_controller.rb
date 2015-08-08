@@ -10,7 +10,7 @@ class SessionsController < ApplicationController
 			params[:session][:remember_me] == '1' ? remember(@user) : forget(@user)
 
 			# rails automatically converts to users_url(usedr)
-			redirect_to @user
+			redirect_back_or @user
 		else
 			# a "flash" persists for exactly 1 web "request"
 			# unlike "redirect" (which was used for successful user_controller flash), render doesn't send web_request
